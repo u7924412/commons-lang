@@ -739,6 +739,15 @@ class DurationFormatUtilsTest extends AbstractLangTest {
     }
 
     @Test
+    void testLANG980() { // Token values must be compared with equals(), not ==
+        // A String equal to "y" that is not the same instance as DurationFormatUtils.y
+        final String y = String.valueOf(new char[] { 'y' });
+        final Token[] tokens = { new Token(y, false, -1) };
+        assertTrue(Token.containsTokenWithValue(tokens, DurationFormatUtils.y));
+        assertEquals(new Token(DurationFormatUtils.y, false, -1), new Token(y, false, -1));
+    }
+
+    @Test
     void testLANG981() { // unmatched quote char in lexx
         assertIllegalArgumentException(() -> DurationFormatUtils.lexx("'yMdHms''S"));
     }
